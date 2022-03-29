@@ -3,13 +3,13 @@ import { IsEmail } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../role/role.enum';
 
-@Entity('employee')
-export class Employee {
+@Entity('customer')
+export class Customer {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: 'Employee' })
+  @ApiProperty({ example: 'Customer' })
   @Column()
   firstname: string;
 
@@ -17,11 +17,11 @@ export class Employee {
   @Column()
   lastname: string;
 
-  @ApiProperty({ example: 'employee.dummy' })
+  @ApiProperty({ example: 'customer.dummy' })
   @Column({ unique: true })
   username: string;
 
-  @ApiProperty({ example: 'employee.dummy@sm.com' })
+  @ApiProperty({ example: 'customer.dummy@sm.com' })
   @IsEmail()
   @Column({ unique: true })
   email: string;
@@ -32,8 +32,4 @@ export class Employee {
   @ApiProperty({ example: Role.EMPLOYEE })
   @Column({ type: 'enum', enum: Role })
   role: Role;
-
-  @ApiProperty()
-  @Column({ nullable: true })
-  lastLoginDate: Date;
 }
