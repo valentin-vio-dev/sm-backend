@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { getOrmConfig } from './config/orm';
 import ormConfigDev from './config/orm/orm.config.dev';
 import { EmployeeModule } from './employee/employee.module';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { EmployeeModule } from './employee/employee.module';
       useFactory: getOrmConfig(),
     }),
     EmployeeModule,
+    CustomerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
