@@ -8,6 +8,7 @@ import { getOrmConfig } from './config/orm';
 import ormConfigDev from './config/orm/orm.config.dev';
 import { EmployeeModule } from './employee/employee.module';
 import { CustomerModule } from './customer/customer.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CustomerModule } from './customer/customer.module';
     }),
     EmployeeModule,
     CustomerModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

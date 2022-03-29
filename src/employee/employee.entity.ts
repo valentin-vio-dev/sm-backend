@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 import { IsEmail } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../role/role.enum';
@@ -26,7 +27,8 @@ export class Employee {
   @Column({ unique: true })
   email: string;
 
-  @Column({ select: false })
+  @Column()
+  @Exclude()
   password: string;
 
   @ApiProperty({ example: Role.EMPLOYEE })

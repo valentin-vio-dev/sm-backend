@@ -10,5 +10,7 @@ export const getOrmConfig = () => {
       return ormConfigStaging;
     case 'production':
       return ormConfigProd;
+    default:
+      return ormConfigDev;
   }
 };

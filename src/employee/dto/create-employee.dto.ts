@@ -5,19 +5,19 @@ import * as bcrypt from 'bcrypt';
 import { BeforeInsert } from 'typeorm';
 
 export class CreateEmployeeDTO {
-  @ApiProperty({ example: 'Tony' })
+  @ApiProperty({ example: 'Employee' })
   @IsNotEmpty()
   readonly firstname: string;
 
-  @ApiProperty({ example: 'Stark' })
+  @ApiProperty({ example: 'Dummy' })
   @IsNotEmpty()
   readonly lastname: string;
 
-  @ApiProperty({ example: 'tony.stark' })
+  @ApiProperty({ example: 'employee.dummy' })
   @IsNotEmpty()
   readonly username: string;
 
-  @ApiProperty({ example: 'tony.stark@sm.com' })
+  @ApiProperty({ example: 'employee.dummy@sm.com' })
   @IsEmail()
   @IsNotEmpty()
   readonly email: string;

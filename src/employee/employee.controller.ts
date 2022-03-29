@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -7,6 +8,8 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  SerializeOptions,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -21,10 +24,12 @@ import { EmployeeService } from './employee.service';
 
 @ApiTags('Employees')
 @Controller('employees')
+@SerializeOptions({ strategy: 'exposeAll' })
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: 'Get all employees.' })
   @ApiResponse({
     status: 200,
@@ -36,6 +41,7 @@ export class EmployeeController {
   }
 
   @Get(':id')
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: 'Get employee by id.' })
   @ApiResponse({
     status: 200,
