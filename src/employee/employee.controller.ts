@@ -19,7 +19,7 @@ import { UpdateEmployeeRoleDTO } from './dto/update-employee-role.dto';
 import { Employee } from './employee.entity';
 import { EmployeeService } from './employee.service';
 
-@ApiTags('employeees')
+@ApiTags('Employees')
 @Controller('employees')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
