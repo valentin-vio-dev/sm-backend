@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { EmployeeRole } from './employee-role.enum';
 
 @Entity('employee')
-export class EmployeeEntity {
+export class Employee {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;

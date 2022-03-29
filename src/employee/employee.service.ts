@@ -7,20 +7,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
 import { EmployeeRole } from './employee-role.enum';
-import { EmployeeEntity } from './employee.entity';
+import { Employee } from './employee.entity';
 
 @Injectable()
 export class EmployeeService {
   constructor(
-    @InjectRepository(EmployeeEntity)
-    private readonly employeeRepository: Repository<EmployeeEntity>,
+    @InjectRepository(Employee)
+    private readonly employeeRepository: Repository<Employee>,
   ) {}
 
-  async findAll(): Promise<EmployeeEntity[]> {
+  async findAll(): Promise<Employee[]> {
     return await this.employeeRepository.find();
   }
 
-  async findById(id: number): Promise<EmployeeEntity> {
+  async findById(id: number): Promise<Employee> {
     const employee = await this.employeeRepository.findOne(id);
     if (!employee) {
       throw new NotFoundException('Employee not found!');
@@ -28,7 +28,7 @@ export class EmployeeService {
     return employee;
   }
 
-  async create(employee: CreateEmployeeDTO): Promise<EmployeeEntity> {
+  async create(employee: CreateEmployeeDTO): Promise<Employee> {
     return await this.employeeRepository.save(employee).catch((err) => {
       if ((err.detail as string).toUpperCase().includes('ALREADY EXISTS')) {
         throw new BadRequestException('Employee already exists!');
@@ -46,7 +46,7 @@ export class EmployeeService {
   }
 
   async updateRole(id: number, role: EmployeeRole) {
-    const employee: EmployeeEntity = await this.employeeRepository.findOne({
+    const employee: Employee = await this.employeeRepository.findOne({
       id,
     });
     if (!employee) {

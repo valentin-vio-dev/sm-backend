@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { EmployeeEntity } from 'src/employee/employee.entity';
+import { Employee } from 'src/employee/employee.entity';
 
 export default registerAs(
   'orm.config',
@@ -11,7 +11,7 @@ export default registerAs(
     username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
-    entities: [EmployeeEntity],
+    entities: [Employee],
     synchronize: true,
   }),
 );

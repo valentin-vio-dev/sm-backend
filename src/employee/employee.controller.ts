@@ -16,7 +16,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
 import { UpdateEmployeeRoleDTO } from './dto/update-employee-role.dto';
-import { EmployeeEntity } from './employee.entity';
+import { Employee } from './employee.entity';
 import { EmployeeService } from './employee.service';
 
 @ApiTags('employeees')
@@ -29,9 +29,9 @@ export class EmployeeController {
   @ApiResponse({
     status: 200,
     description: 'Return all employees.',
-    type: [EmployeeEntity],
+    type: [Employee],
   })
-  async findAll(): Promise<EmployeeEntity[]> {
+  async findAll(): Promise<Employee[]> {
     return await this.employeeService.findAll();
   }
 
@@ -40,12 +40,10 @@ export class EmployeeController {
   @ApiResponse({
     status: 200,
     description: 'Return employee by id.',
-    type: EmployeeEntity,
+    type: Employee,
   })
   @ApiResponse({ status: 404, description: 'Employee not found.' })
-  async findById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<EmployeeEntity> {
+  async findById(@Param('id', ParseIntPipe) id: number): Promise<Employee> {
     return await this.employeeService.findById(id);
   }
 
@@ -53,9 +51,9 @@ export class EmployeeController {
   @ApiOperation({ summary: 'Create new employee.' })
   @ApiCreatedResponse({
     description: 'Return the created employee.',
-    type: EmployeeEntity,
+    type: Employee,
   })
-  async create(@Body() body: CreateEmployeeDTO): Promise<EmployeeEntity> {
+  async create(@Body() body: CreateEmployeeDTO): Promise<Employee> {
     return this.employeeService.create(body);
   }
 
@@ -64,12 +62,12 @@ export class EmployeeController {
   @ApiResponse({
     status: 200,
     description: 'Return updated employee.',
-    type: [EmployeeEntity],
+    type: [Employee],
   })
   async updateRole(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateEmployeeRoleDTO,
-  ): Promise<EmployeeEntity> {
+  ): Promise<Employee> {
     return this.employeeService.updateRole(id, body.role);
   }
 
