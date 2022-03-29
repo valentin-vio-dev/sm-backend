@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
-import { EmployeeRole } from './employee-role.enum';
+import { Role } from '../role/role.enum';
 import { Employee } from './employee.entity';
 
 @Injectable()
@@ -45,7 +45,7 @@ export class EmployeeService {
     return null;
   }
 
-  async updateRole(id: number, role: EmployeeRole) {
+  async updateRole(id: number, role: Role) {
     const employee: Employee = await this.employeeRepository.findOne({
       id,
     });

@@ -1,4 +1,4 @@
-import { EmployeeRole } from '../employee-role.enum';
+import { Role } from '../../role/role.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
 import * as bcrypt from 'bcrypt';
@@ -28,12 +28,12 @@ export class CreateEmployeeDTO {
 
   @ApiProperty({
     type: 'enum',
-    enum: EmployeeRole,
-    default: EmployeeRole.EMPLOYEE,
+    enum: Role,
+    default: Role.EMPLOYEE,
   })
   @IsNotEmpty()
-  @IsEnum(EmployeeRole)
-  readonly role: EmployeeRole;
+  @IsEnum(Role)
+  readonly role: Role;
 
   @BeforeInsert()
   async hashPassword() {

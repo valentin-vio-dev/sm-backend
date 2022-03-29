@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { EmployeeRole } from './employee-role.enum';
+import { Role } from '../role/role.enum';
 
 @Entity('employee')
 export class Employee {
@@ -29,9 +29,9 @@ export class Employee {
   @Column({ select: false })
   password: string;
 
-  @ApiProperty({ example: EmployeeRole.EMPLOYEE })
-  @Column({ type: 'enum', enum: EmployeeRole })
-  role: EmployeeRole;
+  @ApiProperty({ example: Role.EMPLOYEE })
+  @Column({ type: 'enum', enum: Role })
+  role: Role;
 
   @ApiProperty()
   @Column({ nullable: true })
