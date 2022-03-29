@@ -44,7 +44,7 @@ export class EmployeeController {
   })
   @ApiResponse({ status: 404, description: 'Employee not found.' })
   async findById(
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id', ParseIntPipe) id: number,
   ): Promise<EmployeeEntity> {
     return await this.employeeService.findById(id);
   }
@@ -67,7 +67,7 @@ export class EmployeeController {
     type: [EmployeeEntity],
   })
   async updateRole(
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateEmployeeRoleDTO,
   ): Promise<EmployeeEntity> {
     return this.employeeService.updateRole(id, body.role);
@@ -77,7 +77,7 @@ export class EmployeeController {
   @ApiOperation({ summary: 'Delete employee.' })
   @ApiResponse({ status: 200, description: 'Employee deleted.' })
   @ApiResponse({ status: 404, description: 'Employee not found.' })
-  async delete(@Param('id', new ParseIntPipe()) id: number) {
+  async delete(@Param('id', ParseIntPipe) id: number) {
     return await this.employeeService.delete(id);
   }
 }
