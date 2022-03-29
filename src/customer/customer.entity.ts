@@ -29,7 +29,7 @@ export class Customer {
   @Column({ select: false })
   password: string;
 
-  @ApiProperty({ example: Role.EMPLOYEE })
-  @Column({ type: 'enum', enum: Role })
+  @ApiProperty({ example: Role.CUSTOMER })
+  @Column({ type: 'enum', enum: [Role.CUSTOMER] })
   role: Role;
 }
