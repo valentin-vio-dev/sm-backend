@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsEnum } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../role/role.enum';
 
@@ -36,7 +36,8 @@ export class Employee {
   password: string;
 
   @ApiProperty({ example: Role.EMPLOYEE })
-  @Column({ type: 'enum', enum: Role })
+  @Column({ type: 'enum', enum: [Role.SUPER_ADMIN, Role.ADMIN, Role.EMPLOYEE] })
+  @IsEnum(Role)
   role: Role;
 
   @ApiProperty()

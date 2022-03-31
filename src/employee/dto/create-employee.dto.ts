@@ -29,18 +29,10 @@ export class CreateEmployeeDTO {
 
   @ApiProperty({
     type: 'enum',
-    enum: Role,
+    enum: [Role.SUPER_ADMIN, Role.ADMIN, Role.EMPLOYEE],
     default: Role.EMPLOYEE,
   })
   @IsNotEmpty()
   @IsEnum(Role)
   readonly role: Role;
-
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(
-      this.password,
-      Number(process.env.HASH_SALT),
-    );
-  }
 }
