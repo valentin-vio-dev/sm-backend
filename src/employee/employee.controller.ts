@@ -20,6 +20,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { EmployeeGuard } from 'src/role/guards/employee/employee.guard';
 import { SuperAdminGuard } from 'src/role/guards/super-admin/super-admin.guard';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
 import { UpdateEmployeeRoleDTO } from './dto/update-employee-role.dto';
@@ -33,7 +34,8 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Get()
-  @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
+  @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
+  @ApiBearerAuth()
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: 'Get all employees.' })
   @ApiResponse({
@@ -41,13 +43,14 @@ export class EmployeeController {
     description: 'Return all employees.',
     type: [Employee],
   })
-  @ApiBearerAuth()
   async findAll(): Promise<Employee[]> {
     return await this.employeeService.findAll();
   }
 
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get employee by id.' })
   @ApiResponse({
     status: 200,
@@ -61,6 +64,8 @@ export class EmployeeController {
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new employee.' })
   @ApiCreatedResponse({
     description: 'Return the created employee.',
@@ -72,6 +77,8 @@ export class EmployeeController {
 
   @Patch(':id/role')
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Update employee's role." })
   @ApiResponse({
     status: 200,
@@ -86,6 +93,8 @@ export class EmployeeController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete employee.' })
   @ApiResponse({ status: 200, description: 'Employee deleted.' })
   @ApiResponse({ status: 404, description: 'Employee not found.' })
