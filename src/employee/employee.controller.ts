@@ -14,11 +14,13 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { SuperAdminGuard } from 'src/role/guards/super-admin/super-admin.guard';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
 import { UpdateEmployeeRoleDTO } from './dto/update-employee-role.dto';
 import { Employee } from './employee.entity';
@@ -31,7 +33,7 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Get()
-  @UseGuards(AuthGuard('employee-jwt'))
+  @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: 'Get all employees.' })
   @ApiResponse({
@@ -39,6 +41,7 @@ export class EmployeeController {
     description: 'Return all employees.',
     type: [Employee],
   })
+  @ApiBearerAuth()
   async findAll(): Promise<Employee[]> {
     return await this.employeeService.findAll();
   }
