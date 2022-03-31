@@ -6,13 +6,19 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { AdminGuard } from 'src/role/guards/admin/admin.guard';
+import { EmployeeGuard } from 'src/role/guards/employee/employee.guard';
+import { SuperAdminGuard } from 'src/role/guards/super-admin/super-admin.guard';
 import { CreateManufacturerDTO } from './dto/create-manufacturer.dto';
 import { Manufacturer } from './manufacturer.entity';
 import { ManufacturerService } from './manufacturer.service';
@@ -31,6 +37,8 @@ export class ManufacturerController {
     description: 'Return all manufacturer',
     type: [Manufacturer],
   })
+  @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
+  @ApiBearerAuth()
   async findAll(): Promise<Manufacturer[]> {
     return await this.manufacturerService.findAll();
   }
@@ -45,6 +53,8 @@ export class ManufacturerController {
     type: Manufacturer,
   })
   @ApiResponse({ status: 404, description: 'Manufacturer not found.' })
+  @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
+  @ApiBearerAuth()
   async findById(@Param('id', ParseIntPipe) id: number): Promise<Manufacturer> {
     return await this.manufacturerService.findById(id);
   }
@@ -61,6 +71,8 @@ export class ManufacturerController {
     status: 400,
     description: 'Manufacturer already exists',
   })
+  @UseGuards(AuthGuard('employee-jwt'), AdminGuard)
+  @ApiBearerAuth()
   async create(@Body() body: CreateManufacturerDTO): Promise<Manufacturer> {
     return await this.manufacturerService.create(body);
   }
@@ -69,6 +81,8 @@ export class ManufacturerController {
   @ApiOperation({ summary: 'Delete manufacturer.' })
   @ApiResponse({ status: 200, description: 'Manufacturer deleted.' })
   @ApiResponse({ status: 404, description: 'Manufacturer not found.' })
+  @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
+  @ApiBearerAuth()
   async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {
     return await this.manufacturerService.delete(id);
   }
