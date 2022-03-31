@@ -10,18 +10,21 @@ export class CreateManufacturerDTO {
   @IsNotEmpty()
   readonly companyName: string;
 
-  @ApiProperty({ example: '+6312434734' })
+  @ApiProperty({ example: '+6312434734', required: false })
   readonly phone: string;
 
-  @ApiProperty({ example: 'manufacturer.dummy@sm.com' })
+  @ApiProperty({ example: 'manufacturer.dummy@sm.com', required: false })
   @IsEmail()
   @IsOptional()
   readonly email: string;
 
-  @ApiProperty({ example: 'www.manufacturer.com' })
+  @ApiProperty({ example: 'www.manufacturer.com', required: false })
   readonly wesite: string;
 
-  @ApiProperty({ example: 'Some description for manufacturer' })
+  @ApiProperty({
+    example: 'Some description for manufacturer',
+    required: false,
+  })
   @Length(0, 512)
   @IsOptional()
   readonly description: string;
