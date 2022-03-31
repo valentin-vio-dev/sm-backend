@@ -17,7 +17,7 @@ import { Employee } from 'src/employee/employee.entity';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('login/employees')
+  @Post('/employees')
   @UseGuards(AuthGuard('employee-local'))
   @ApiOperation({ summary: 'Authenticate employee.' })
   @ApiBody({ type: LoginDTO })
