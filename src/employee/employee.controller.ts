@@ -20,6 +20,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { EmployeeGuard } from 'src/role/guards/employee/employee.guard';
 import { SuperAdminGuard } from 'src/role/guards/super-admin/super-admin.guard';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
@@ -47,7 +48,21 @@ export class EmployeeController {
     return await this.employeeService.findAll();
   }
 
-  @Get(':id')
+  @Get('/current')
+  @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current employee.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return current employee.',
+    type: Employee,
+  })
+  @UseInterceptors(ClassSerializerInterceptor)
+  getCurrentEmployee(@CurrentUser() user: Employee): Employee {
+    return user;
+  }
+
+  @Get('/:id')
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
   @ApiBearerAuth()
@@ -75,7 +90,7 @@ export class EmployeeController {
     return this.employeeService.create(body);
   }
 
-  @Patch(':id/role')
+  @Patch('/:id/role')
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
   @ApiBearerAuth()
@@ -92,7 +107,7 @@ export class EmployeeController {
     return this.employeeService.updateRole(id, body.role);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete employee.' })
