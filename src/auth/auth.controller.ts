@@ -26,8 +26,6 @@ export class AuthController {
     type: TokenDTO,
   })
   async loginEmployee(@CurrentUser() user: Employee) {
-    return {
-      token: this.authService.getToken(user),
-    };
+    return await this.authService.loginEmployee(user);
   }
 }
