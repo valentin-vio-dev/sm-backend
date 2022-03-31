@@ -12,7 +12,7 @@ import { LoginDTO } from './dto/login.dto';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Employee } from 'src/employee/employee.entity';
 
-@ApiTags('Auth')
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
