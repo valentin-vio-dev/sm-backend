@@ -86,6 +86,10 @@ export class EmployeeController {
     description: 'Return the created employee.',
     type: Employee,
   })
+  @ApiResponse({
+    status: 400,
+    description: 'Employee already exists',
+  })
   async create(@Body() body: CreateEmployeeDTO): Promise<Employee> {
     return this.employeeService.create(body);
   }
@@ -113,7 +117,7 @@ export class EmployeeController {
   @ApiOperation({ summary: 'Delete employee.' })
   @ApiResponse({ status: 200, description: 'Employee deleted.' })
   @ApiResponse({ status: 404, description: 'Employee not found.' })
-  async delete(@Param('id', ParseIntPipe) id: number) {
+  async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {
     return await this.employeeService.delete(id);
   }
 }

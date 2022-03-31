@@ -9,6 +9,7 @@ import ormConfigDev from './config/orm/orm.config.dev';
 import { EmployeeModule } from './employee/employee.module';
 import { CustomerModule } from './customer/customer.module';
 import { AuthModule } from './auth/auth.module';
+import { ManufacturerModule } from './manufacturer/manufacturer.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
     EmployeeModule,
     CustomerModule,
     AuthModule,
+    ManufacturerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
