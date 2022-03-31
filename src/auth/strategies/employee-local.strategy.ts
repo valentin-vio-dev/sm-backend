@@ -5,6 +5,7 @@ import { Strategy } from 'passport-local';
 import { Employee } from 'src/employee/employee.entity';
 import { UserNotFoundException } from 'src/exceptions/user-not-found.exception';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class EmployeeLocalStrategy extends PassportStrategy(
@@ -28,8 +29,9 @@ export class EmployeeLocalStrategy extends PassportStrategy(
       throw new UserNotFoundException('Employee not found!');
     }
 
-    if (password !== employee.password) {
-      throw new UnauthorizedException('Employee not found!');
+    const match = await bcrypt.compare(password, employee.password);
+    if (!match) {
+      throw new UnauthorizedException('Wrong password or username/email!');
     }
 
     return employee;

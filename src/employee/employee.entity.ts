@@ -6,6 +6,10 @@ import { Role } from '../role/role.enum';
 
 @Entity('employee')
 export class Employee {
+  constructor(partial: Partial<Employee>) {
+    Object.assign(this, partial);
+  }
+
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;

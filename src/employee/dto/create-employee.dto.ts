@@ -1,6 +1,6 @@
 import { Role } from '../../role/role.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, Length } from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import { BeforeInsert } from 'typeorm';
 
@@ -24,6 +24,7 @@ export class CreateEmployeeDTO {
 
   @ApiProperty({ example: 'secretpassword123' })
   @IsNotEmpty()
+  @Length(8, 32)
   password: string;
 
   @ApiProperty({

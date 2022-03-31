@@ -9,8 +9,10 @@ import {
   Patch,
   Post,
   SerializeOptions,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ApiCreatedResponse,
   ApiOperation,
@@ -29,6 +31,7 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Get()
+  @UseGuards(AuthGuard('employee-jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: 'Get all employees.' })
   @ApiResponse({
@@ -54,6 +57,7 @@ export class EmployeeController {
   }
 
   @Post()
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: 'Create new employee.' })
   @ApiCreatedResponse({
     description: 'Return the created employee.',
@@ -64,11 +68,12 @@ export class EmployeeController {
   }
 
   @Patch(':id/role')
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: "Update employee's role." })
   @ApiResponse({
     status: 200,
     description: 'Return updated employee.',
-    type: [Employee],
+    type: Employee,
   })
   async updateRole(
     @Param('id', ParseIntPipe) id: number,

@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,12 +10,15 @@ import { DeleteResult, Repository } from 'typeorm';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
 import { Role } from '../role/role.enum';
 import { Employee } from './employee.entity';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class EmployeeService {
   constructor(
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
   ) {}
 
   async findAll(): Promise<Employee[]> {
@@ -29,12 +34,24 @@ export class EmployeeService {
   }
 
   async create(employee: CreateEmployeeDTO): Promise<Employee> {
-    return await this.employeeRepository.save(employee).catch((err) => {
-      if ((err.detail as string).toUpperCase().includes('ALREADY EXISTS')) {
-        throw new BadRequestException('Employee already exists!');
-      }
-      return err;
+    const existingEmployee = await this.employeeRepository.findOne({
+      where: [
+        {
+          username: employee.username,
+        },
+        {
+          email: employee.email,
+        },
+      ],
     });
+
+    if (existingEmployee) {
+      throw new BadRequestException('Employee already exists!');
+    }
+
+    const emp = new Employee(employee);
+    emp.password = await this.authService.hashPassword(emp.password);
+    return await this.employeeRepository.save(emp);
   }
 
   async delete(id: number): Promise<null> {
