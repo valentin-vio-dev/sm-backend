@@ -98,6 +98,8 @@ export class ManufacturerController {
     description: 'Return updated manufacturer.',
   })
   @ApiResponse({ status: 404, description: 'Manufacturer not found.' })
+  @UseGuards(AuthGuard('employee-jwt'), AdminGuard)
+  @ApiBearerAuth()
   async updateManufacturer(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateManufacturerDTO,
