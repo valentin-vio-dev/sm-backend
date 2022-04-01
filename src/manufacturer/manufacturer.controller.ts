@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -20,6 +21,7 @@ import { AdminGuard } from 'src/role/guards/admin/admin.guard';
 import { EmployeeGuard } from 'src/role/guards/employee/employee.guard';
 import { SuperAdminGuard } from 'src/role/guards/super-admin/super-admin.guard';
 import { CreateManufacturerDTO } from './dto/create-manufacturer.dto';
+import { UpdateManufacturerDTO } from './dto/update-manufactuer.dto';
 import { Manufacturer } from './manufacturer.entity';
 import { ManufacturerService } from './manufacturer.service';
 
@@ -85,5 +87,21 @@ export class ManufacturerController {
   @ApiBearerAuth()
   async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {
     return await this.manufacturerService.delete(id);
+  }
+
+  @Put('/:id')
+  @ApiOperation({
+    summary: 'Update manufacturer.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Return updated manufacturer.',
+  })
+  @ApiResponse({ status: 404, description: 'Manufacturer not found.' })
+  async updateManufacturer(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateManufacturerDTO,
+  ): Promise<Manufacturer> {
+    return await this.manufacturerService.updateManufacturer(id, body);
   }
 }

@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateManufacturerDTO } from './dto/create-manufacturer.dto';
+import { UpdateManufacturerDTO } from './dto/update-manufactuer.dto';
 import { Manufacturer } from './manufacturer.entity';
 
 @Injectable()
@@ -47,5 +48,34 @@ export class ManufacturerService {
       throw new NotFoundException('Manufactrurer not found!');
     }
     return null;
+  }
+
+  async updateManufacturer(
+    id: number,
+    update: UpdateManufacturerDTO,
+  ): Promise<Manufacturer> {
+    const manufactuer = await this.manufacturerRepository.findOne(id);
+    if (!manufactuer) {
+      throw new NotFoundException('Manufacturer not found!');
+    }
+
+    const existingManufacturer = await this.manufacturerRepository.findOne({
+      where: {
+        name: update.name,
+      },
+    });
+
+    if (existingManufacturer) {
+      throw new BadRequestException(
+        'Manufacturer already exists with this name!',
+      );
+    }
+
+    const updated = new Manufacturer({
+      ...manufactuer,
+      ...update,
+      id,
+    });
+    return await this.manufacturerRepository.save(updated);
   }
 }

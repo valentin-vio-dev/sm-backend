@@ -83,6 +83,21 @@ export class EmployeeService {
       throw new NotFoundException('Employee not found!');
     }
 
+    const existingEmployee = await this.employeeRepository.findOne({
+      where: [
+        {
+          username: employee.username,
+        },
+        {
+          email: employee.email,
+        },
+      ],
+    });
+
+    if (existingEmployee) {
+      throw new BadRequestException('Employee already exists!');
+    }
+
     const updated = new Employee({
       ...employee,
       ...update,
