@@ -65,7 +65,7 @@ export class ManufacturerService {
       },
     });
 
-    if (existingManufacturer) {
+    if (existingManufacturer && existingManufacturer.id !== id) {
       throw new BadRequestException(
         'Manufacturer already exists with this name!',
       );

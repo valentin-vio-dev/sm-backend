@@ -94,7 +94,7 @@ export class EmployeeService {
       ],
     });
 
-    if (existingEmployee) {
+    if (existingEmployee && existingEmployee.id !== id) {
       throw new BadRequestException('Employee already exists!');
     }
 
