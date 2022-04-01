@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Put,
   SerializeOptions,
   UseGuards,
   UseInterceptors,
@@ -21,10 +22,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { AdminGuard } from 'src/role/guards/admin/admin.guard';
 import { EmployeeGuard } from 'src/role/guards/employee/employee.guard';
 import { SuperAdminGuard } from 'src/role/guards/super-admin/super-admin.guard';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
 import { UpdateEmployeeRoleDTO } from './dto/update-employee-role.dto';
+import { UpdateEmployeeDTO } from './dto/update-employee.dto';
 import { Employee } from './employee.entity';
 import { EmployeeService } from './employee.service';
 
@@ -119,5 +122,28 @@ export class EmployeeController {
   @ApiResponse({ status: 404, description: 'Employee not found.' })
   async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {
     return await this.employeeService.delete(id);
+  }
+
+  @Put('/:id')
+  @ApiOperation({
+    summary: 'Update employee.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Return updated employee.',
+    type: Employee,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Employee not found.',
+  })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('employee-jwt'), AdminGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async updateEmployee(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() update: UpdateEmployeeDTO,
+  ) {
+    return await this.employeeService.updateEmployee(id, update);
   }
 }

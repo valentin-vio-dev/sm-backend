@@ -11,6 +11,7 @@ import { CreateEmployeeDTO } from './dto/create-employee.dto';
 import { Role } from '../role/role.enum';
 import { Employee } from './employee.entity';
 import { AuthService } from 'src/auth/auth.service';
+import { UpdateEmployeeDTO } from './dto/update-employee.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -71,5 +72,23 @@ export class EmployeeService {
     }
     employee.role = role;
     return await this.employeeRepository.save(employee);
+  }
+
+  async updateEmployee(
+    id: number,
+    update: UpdateEmployeeDTO,
+  ): Promise<Employee> {
+    const employee = await this.employeeRepository.findOne(id);
+    if (!employee) {
+      throw new NotFoundException('Employee not found!');
+    }
+
+    const updated = new Employee({
+      ...employee,
+      ...update,
+      id,
+    });
+
+    return await this.employeeRepository.save(updated);
   }
 }
