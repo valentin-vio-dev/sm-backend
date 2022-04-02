@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.setGlobalPrefix(`api/v${process.env.API_VERSION.split('.')[0]}`, {
-    exclude: ['/images/:image'],
+    exclude: ['/storage/images/:name'],
   });
   app.useGlobalPipes(new ValidationPipe());
 

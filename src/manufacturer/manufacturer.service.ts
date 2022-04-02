@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AppService } from 'src/app.service';
+import { StorageService } from 'src/storage/storage.service';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateManufacturerDTO } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDTO } from './dto/update-manufactuer.dto';
@@ -15,7 +15,7 @@ export class ManufacturerService {
   constructor(
     @InjectRepository(Manufacturer)
     private readonly manufacturerRepository: Repository<Manufacturer>,
-    private readonly appService: AppService,
+    private readonly storageService: StorageService,
   ) {}
 
   async findAll(): Promise<Manufacturer[]> {
@@ -55,7 +55,7 @@ export class ManufacturerService {
       throw new BadRequestException();
     }
 
-    this.appService.deleteImage(manufactuer.image);
+    this.storageService.deleteImage(manufactuer.image);
     return null;
   }
 
