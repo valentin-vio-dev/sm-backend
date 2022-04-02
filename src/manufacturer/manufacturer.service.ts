@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AppService } from 'src/app.service';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateManufacturerDTO } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDTO } from './dto/update-manufactuer.dto';
@@ -14,6 +15,7 @@ export class ManufacturerService {
   constructor(
     @InjectRepository(Manufacturer)
     private readonly manufacturerRepository: Repository<Manufacturer>,
+    private readonly appService: AppService,
   ) {}
 
   async findAll(): Promise<Manufacturer[]> {
@@ -43,10 +45,17 @@ export class ManufacturerService {
   }
 
   async delete(id: number): Promise<null> {
-    const res: DeleteResult = await this.manufacturerRepository.delete({ id });
-    if (res.affected === 0) {
+    const manufactuer = await this.manufacturerRepository.findOne(id);
+    if (!manufactuer) {
       throw new NotFoundException('Manufactrurer not found!');
     }
+
+    const res: DeleteResult = await this.manufacturerRepository.delete({ id });
+    if (res.affected === 0) {
+      throw new BadRequestException();
+    }
+
+    this.appService.deleteImage(manufactuer.image);
     return null;
   }
 

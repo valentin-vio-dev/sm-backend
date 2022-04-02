@@ -5,7 +5,9 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
-  app.setGlobalPrefix(`api/v${process.env.API_VERSION.split('.')[0]}`);
+  app.setGlobalPrefix(`api/v${process.env.API_VERSION.split('.')[0]}`, {
+    exclude: ['/images/:image'],
+  });
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()

@@ -28,4 +28,7 @@ export class CreateManufacturerDTO {
   @Length(0, 512)
   @IsOptional()
   readonly description: string;
+
+  @ApiProperty({ example: 'example.png', required: false })
+  readonly image: string;
 }

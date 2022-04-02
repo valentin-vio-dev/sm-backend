@@ -36,4 +36,8 @@ export class Manufacturer {
   @ApiProperty({ example: 'Some description for manufacturer' })
   @Column({ nullable: true })
   description: string;
+
+  @ApiProperty({ example: 'example.png' })
+  @Column({ nullable: true })
+  image: string;
 }
