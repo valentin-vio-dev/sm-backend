@@ -19,7 +19,7 @@ export class CreateManufacturerDTO {
   readonly email: string;
 
   @ApiProperty({ example: 'www.manufacturer.com', required: false })
-  readonly wesite: string;
+  readonly website: string;
 
   @ApiProperty({
     example: 'Some description for manufacturer',

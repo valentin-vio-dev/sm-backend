@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.setGlobalPrefix(`api/v${process.env.API_VERSION.split('.')[0]}`, {
-    exclude: ['/storage/images/:name'],
+    exclude: [{ path: '/storage/images/:name', method: RequestMethod.GET }],
   });
   app.useGlobalPipes(new ValidationPipe());
 

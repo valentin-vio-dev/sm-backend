@@ -31,7 +31,7 @@ export class Manufacturer {
 
   @ApiProperty({ example: 'www.manufacturer.com' })
   @Column({ nullable: true })
-  wesite: string;
+  website: string;
 
   @ApiProperty({ example: 'Some description for manufacturer' })
   @Column({ nullable: true })

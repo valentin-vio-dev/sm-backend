@@ -59,10 +59,10 @@ export class StorageController {
   @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
   @ApiBearerAuth()
   deleteImage(@Param('name') image: string) {
-    if (this.storageService.deleteImage(image)) {
-      return null;
+    if (!this.storageService.deleteImage(image)) {
+      throw new NotFoundException('Image not found!');
     }
-    throw new NotFoundException('Image not found!');
+    return null;
   }
 
   @Post('/images/upload')
