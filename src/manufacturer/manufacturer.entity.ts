@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from 'src/product/product.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('manufacturer')
 export class Manufacturer {
@@ -40,4 +41,7 @@ export class Manufacturer {
   @ApiProperty({ example: 'example.png' })
   @Column({ nullable: true })
   image: string;
+
+  @OneToMany(() => Product, (product) => product.manufacturer)
+  products: Product[];
 }

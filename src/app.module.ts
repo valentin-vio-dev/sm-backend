@@ -11,6 +11,7 @@ import { CustomerModule } from './customer/customer.module';
 import { AuthModule } from './auth/auth.module';
 import { ManufacturerModule } from './manufacturer/manufacturer.module';
 import { StorageModule } from './storage/storage.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { StorageModule } from './storage/storage.module';
     AuthModule,
     ManufacturerModule,
     StorageModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
