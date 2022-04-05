@@ -22,7 +22,7 @@ export class ProductService {
       product.manufacturerId,
     );
 
-    const existingProduct = await this.productRepository.find({
+    const existingProduct = await this.productRepository.findOne({
       where: [
         {
           productCode: product.productCode,
