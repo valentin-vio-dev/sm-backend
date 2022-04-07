@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -70,5 +71,13 @@ export class ProductController {
     @Param('id', ParseIntPipe) id: number,
   ) {
     return await this.productService.update(id, body);
+  }
+
+  @Delete('/:id')
+  @ApiOperation({ summary: 'Delete product.' })
+  @ApiResponse({ status: 200, description: 'Product deleted.' })
+  @ApiResponse({ status: 404, description: 'Product not found.' })
+  async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {
+    return await this.productService.delete(id);
   }
 }

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ManufacturerService } from 'src/manufacturer/manufacturer.service';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { UpdateProductDTO } from './dto/update-product.dto';
 import { Product } from './product.entity';
@@ -83,5 +83,20 @@ export class ProductService {
     });
 
     return await this.productRepository.save(updated);
+  }
+
+  async delete(id: number) {
+    const product = await this.productRepository.findOne(id);
+
+    if (!product) {
+      throw new NotFoundException('Product not found!');
+    }
+
+    const res: DeleteResult = await this.productRepository.delete({ id });
+    if (res.affected === 0) {
+      throw new BadRequestException();
+    }
+
+    return null;
   }
 }
