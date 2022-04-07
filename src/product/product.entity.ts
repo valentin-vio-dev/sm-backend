@@ -34,6 +34,14 @@ export class Product {
   @Column({ nullable: true, default: 0 })
   discount: number;
 
+  @ApiProperty({ example: '1_YEAR' })
+  @Column({ nullable: true })
+  guarantee: string;
+
+  @ApiProperty({ example: 'AVAILABLE' })
+  @Column({ nullable: true })
+  avaibility: string;
+
   @ApiProperty({ example: 'Short description' })
   @Column({ nullable: true })
   shortDescription: string;
@@ -51,4 +59,8 @@ export class Product {
   @ApiProperty({ example: 1 })
   @Column()
   manufacturerId: number;
+
+  @ApiProperty({ example: ['example.png', 'image.png'] })
+  @Column('text', { nullable: true, array: true })
+  images: string[];
 }

@@ -15,6 +15,14 @@ export class CreateProductDTO {
   @IsOptional()
   readonly discount: number;
 
+  @ApiProperty({ example: '1_YEAR' })
+  @IsOptional()
+  guarantee: string;
+
+  @ApiProperty({ example: 'AVAILABLE' })
+  @IsOptional()
+  avaibility: string;
+
   @ApiProperty({ example: 'Short description', required: false })
   @IsOptional()
   readonly shortDescription: string;
@@ -25,4 +33,7 @@ export class CreateProductDTO {
 
   @ApiProperty({ example: 1 })
   readonly manufacturerId: number;
+
+  @ApiProperty({ example: ['example.png', 'image.png'], required: false })
+  readonly images: string[];
 }
