@@ -39,9 +39,9 @@ export class ProductService {
 
     const prod: Product = new Product({
       ...product,
-      manufacturer,
+      manufacturerId: manufacturer.id,
     });
 
-    return this.productRepository.save(prod);
+    return await this.productRepository.save(prod);
   }
 }

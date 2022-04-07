@@ -29,10 +29,10 @@ export class ProductController {
 
   @Post()
   @ApiOperation({
-    summary: 'Create new product',
+    summary: 'Create new product.',
   })
   @ApiCreatedResponse({
-    description: 'Return the created product',
+    description: 'Return the created product.',
     type: Product,
   })
   @ApiResponse({

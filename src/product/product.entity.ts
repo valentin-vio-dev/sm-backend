@@ -1,12 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('product')
 export class Product {
@@ -53,7 +47,6 @@ export class Product {
   @ManyToOne(() => Manufacturer, (manufacturer) => manufacturer.products, {
     nullable: false,
   })
-  @JoinColumn()
   manufacturer: Manufacturer;
 
   @ApiProperty({ example: 1 })
