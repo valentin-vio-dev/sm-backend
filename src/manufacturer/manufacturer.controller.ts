@@ -104,6 +104,6 @@ export class ManufacturerController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateManufacturerDTO,
   ): Promise<Manufacturer> {
-    return await this.manufacturerService.updateManufacturer(id, body);
+    return await this.manufacturerService.update(id, body);
   }
 }

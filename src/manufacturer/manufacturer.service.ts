@@ -59,7 +59,7 @@ export class ManufacturerService {
     return null;
   }
 
-  async updateManufacturer(
+  async update(
     id: number,
     update: UpdateManufacturerDTO,
   ): Promise<Manufacturer> {

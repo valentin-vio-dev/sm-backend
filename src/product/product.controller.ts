@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   ApiCreatedResponse,
   ApiOperation,
@@ -6,6 +14,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateProductDTO } from './dto/create-product.dto';
+import { UpdateProductDTO } from './dto/update-product.dto';
 import { Product } from './product.entity';
 import { ProductService } from './product.service';
 
@@ -41,5 +50,25 @@ export class ProductController {
   })
   create(@Body() body: CreateProductDTO) {
     return this.productService.create(body);
+  }
+
+  @Put('/:id')
+  @ApiOperation({
+    summary: 'Update product by id.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Return updated product.',
+    type: Product,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Product not found!',
+  })
+  async update(
+    @Body() body: UpdateProductDTO,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return await this.productService.update(id, body);
   }
 }
