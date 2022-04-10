@@ -41,10 +41,10 @@ export class EmployeeController {
   @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
   @ApiBearerAuth()
   @UseInterceptors(ClassSerializerInterceptor)
-  @ApiOperation({ summary: 'Get all employees.' })
+  @ApiOperation({ summary: 'Get all employee.' })
   @ApiResponse({
     status: 200,
-    description: 'Return all employees.',
+    description: 'Returns all employee.',
     type: [Employee],
   })
   async findAll(): Promise<Employee[]> {
@@ -57,7 +57,7 @@ export class EmployeeController {
   @ApiOperation({ summary: 'Get current employee.' })
   @ApiResponse({
     status: 200,
-    description: 'Return current employee.',
+    description: 'Returns current employee.',
     type: Employee,
   })
   @UseInterceptors(ClassSerializerInterceptor)
@@ -72,10 +72,10 @@ export class EmployeeController {
   @ApiOperation({ summary: 'Get employee by id.' })
   @ApiResponse({
     status: 200,
-    description: 'Return employee by id.',
+    description: 'Returns employee by id.',
     type: Employee,
   })
-  @ApiResponse({ status: 404, description: 'Employee not found.' })
+  @ApiResponse({ status: 404, description: 'Employee i not found.' })
   async findById(@Param('id', ParseIntPipe) id: number): Promise<Employee> {
     return await this.employeeService.findById(id);
   }
@@ -86,12 +86,12 @@ export class EmployeeController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new employee.' })
   @ApiCreatedResponse({
-    description: 'Return the created employee.',
+    description: 'Returns created employee.',
     type: Employee,
   })
   @ApiResponse({
     status: 400,
-    description: 'Employee already exists',
+    description: 'Employee already exists.',
   })
   async create(@Body() body: CreateEmployeeDTO): Promise<Employee> {
     return this.employeeService.create(body);
@@ -104,7 +104,7 @@ export class EmployeeController {
   @ApiOperation({ summary: "Update employee's role." })
   @ApiResponse({
     status: 200,
-    description: 'Return updated employee.',
+    description: 'Returns updated employee.',
     type: Employee,
   })
   async updateRole(
@@ -119,7 +119,7 @@ export class EmployeeController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete employee.' })
   @ApiResponse({ status: 200, description: 'Employee deleted.' })
-  @ApiResponse({ status: 404, description: 'Employee not found.' })
+  @ApiResponse({ status: 404, description: 'Employee is not found.' })
   async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {
     return await this.employeeService.delete(id);
   }
@@ -130,12 +130,12 @@ export class EmployeeController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Return updated employee.',
+    description: 'Returns updated employee.',
     type: Employee,
   })
   @ApiResponse({
     status: 404,
-    description: 'Employee not found.',
+    description: 'Employee is not found.',
   })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('employee-jwt'), AdminGuard)

@@ -35,7 +35,7 @@ export class ProductController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Return all product.',
+    description: 'Returns all product.',
     type: [Product],
   })
   async findAll(): Promise<Product[]> {
@@ -47,12 +47,12 @@ export class ProductController {
     summary: 'Create new product.',
   })
   @ApiCreatedResponse({
-    description: 'Return the created product.',
+    description: 'Returns created product.',
     type: Product,
   })
   @ApiResponse({
     status: 400,
-    description: 'Product or manufacturer already exists.',
+    description: 'Product already exists or manufacturer is not found.',
   })
   @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
   @ApiBearerAuth()
@@ -62,16 +62,16 @@ export class ProductController {
 
   @Put('/:id')
   @ApiOperation({
-    summary: 'Update product by id.',
+    summary: 'Update product.',
   })
   @ApiResponse({
     status: 200,
-    description: 'Return updated product.',
+    description: 'Returns updated product.',
     type: Product,
   })
   @ApiResponse({
     status: 404,
-    description: 'Product not found!',
+    description: 'Product is not found!',
   })
   @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
   @ApiBearerAuth()
@@ -85,7 +85,7 @@ export class ProductController {
   @Delete('/:id')
   @ApiOperation({ summary: 'Delete product.' })
   @ApiResponse({ status: 200, description: 'Product deleted.' })
-  @ApiResponse({ status: 404, description: 'Product not found.' })
+  @ApiResponse({ status: 404, description: 'Product is not found.' })
   @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
   @ApiBearerAuth()
   async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {

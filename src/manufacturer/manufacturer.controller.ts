@@ -32,11 +32,11 @@ export class ManufacturerController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get all manufacturer',
+    summary: 'Get all manufacturer.',
   })
   @ApiResponse({
     status: 200,
-    description: 'Return all manufacturer',
+    description: 'Returns all manufacturer.',
     type: [Manufacturer],
   })
   @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
@@ -47,14 +47,14 @@ export class ManufacturerController {
 
   @Get('/:id')
   @ApiOperation({
-    summary: 'Get manufacturer by id',
+    summary: 'Get manufacturer by id.',
   })
   @ApiResponse({
     status: 200,
-    description: 'Return manufacturer by id',
+    description: 'Returns manufacturer by id.',
     type: Manufacturer,
   })
-  @ApiResponse({ status: 404, description: 'Manufacturer not found.' })
+  @ApiResponse({ status: 404, description: 'Manufacturer is not found.' })
   @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
   @ApiBearerAuth()
   async findById(@Param('id', ParseIntPipe) id: number): Promise<Manufacturer> {
@@ -63,15 +63,15 @@ export class ManufacturerController {
 
   @Post()
   @ApiOperation({
-    summary: 'Create new manufacturer',
+    summary: 'Create new manufacturer.',
   })
   @ApiCreatedResponse({
-    description: 'Return the created manufacturer',
+    description: 'Returns created manufacturer.',
     type: Manufacturer,
   })
   @ApiResponse({
     status: 400,
-    description: 'Manufacturer already exists',
+    description: 'Manufacturer already exists.',
   })
   @UseGuards(AuthGuard('employee-jwt'), AdminGuard)
   @ApiBearerAuth()
@@ -80,9 +80,9 @@ export class ManufacturerController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Delete manufacturer.' })
+  @ApiOperation({ summary: 'Delete manufacturer by id.' })
   @ApiResponse({ status: 200, description: 'Manufacturer deleted.' })
-  @ApiResponse({ status: 404, description: 'Manufacturer not found.' })
+  @ApiResponse({ status: 404, description: 'Manufacturer is not found.' })
   @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
   @ApiBearerAuth()
   async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {
@@ -95,9 +95,9 @@ export class ManufacturerController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Return updated manufacturer.',
+    description: 'Returns updated manufacturer.',
   })
-  @ApiResponse({ status: 404, description: 'Manufacturer not found.' })
+  @ApiResponse({ status: 404, description: 'Manufacturer is not found.' })
   @UseGuards(AuthGuard('employee-jwt'), AdminGuard)
   @ApiBearerAuth()
   async updateManufacturer(
