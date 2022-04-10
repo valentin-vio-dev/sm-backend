@@ -46,6 +46,10 @@ export class ProductController {
     description: 'Returns paginated products.',
     type: Product,
   })
+  @ApiResponse({
+    status: 400,
+    description: 'Page and limit query parameters are required.',
+  })
   async findPaginated(
     @Query() filter: GeneralFilter,
   ): Promise<PaginationResult<Product>> {

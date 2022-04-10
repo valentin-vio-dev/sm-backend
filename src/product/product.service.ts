@@ -38,6 +38,12 @@ export class ProductService {
       sort: 'e.name',
       order: paginatorOptions.order,
     });
+
+    if (!paginatorOptions.currentPage || !paginatorOptions.limit) {
+      throw new BadRequestException(
+        'Page and limit query parameters are required!',
+      );
+    }
     return await paginate(query, paginatorOptions);
   }
 
