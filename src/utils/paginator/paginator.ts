@@ -12,6 +12,7 @@ export interface PaginationResult<T> {
   first: number;
   last: number;
   limit: number;
+  total: number;
   results: T[];
 }
 
@@ -25,6 +26,7 @@ export async function paginate<T>(
     first: offset + 1,
     last: offset + results.length,
     limit: +options.limit,
+    total: await qb.getCount(),
     results,
   };
 }
@@ -41,12 +43,19 @@ export const ApiPaginatedDto = <Model extends Type<any>>(options: {
             properties: {
               first: {
                 type: 'number',
+                example: 1,
               },
               last: {
                 type: 'number',
+                example: 1,
               },
               limit: {
                 type: 'number',
+                example: 10,
+              },
+              total: {
+                type: 'number',
+                example: 100,
               },
               results: {
                 type: 'array',
