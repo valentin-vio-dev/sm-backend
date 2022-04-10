@@ -7,7 +7,10 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -19,6 +22,11 @@ import {
 } from '@nestjs/swagger';
 import { EmployeeGuard } from 'src/role/guards/employee/employee.guard';
 import { SuperAdminGuard } from 'src/role/guards/super-admin/super-admin.guard';
+import { GeneralFilter } from 'src/utils/filters/general-filter.filter';
+import {
+  ApiPaginatedDto,
+  PaginationResult,
+} from 'src/utils/paginator/paginator';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { UpdateProductDTO } from './dto/update-product.dto';
 import { Product } from './product.entity';
@@ -30,16 +38,22 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
+  @UsePipes(new ValidationPipe({ transform: true }))
   @ApiOperation({
-    summary: 'Get products by filter.',
+    summary: 'Get paginated products.',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns products.',
-    type: [Product],
+  @ApiPaginatedDto({
+    description: 'Returns paginated products.',
+    type: Product,
   })
-  async findAll(): Promise<Product[]> {
-    return await this.productService.findAll();
+  async findPaginated(
+    @Query() filter: GeneralFilter,
+  ): Promise<PaginationResult<Product>> {
+    return await this.productService.findPaginated({
+      currentPage: filter.page,
+      limit: filter.limit,
+      order: filter.order,
+    });
   }
 
   @Get('/:id')

@@ -5,6 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ManufacturerService } from 'src/manufacturer/manufacturer.service';
+import {
+  paginate,
+  PaginationResult,
+  PaginatorOptions,
+} from 'src/utils/paginator/paginator';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { UpdateProductDTO } from './dto/update-product.dto';
@@ -18,8 +23,22 @@ export class ProductService {
     private manufacturerService: ManufacturerService,
   ) {}
 
-  async findAll(): Promise<Product[]> {
-    return await this.productRepository.find();
+  private getBaseQuery(order?: { sort: string; order: string }) {
+    let query = this.productRepository.createQueryBuilder('e');
+    if (order) {
+      query = query.addOrderBy(order.sort, order.order as any);
+    }
+    return query;
+  }
+
+  async findPaginated(
+    paginatorOptions: PaginatorOptions,
+  ): Promise<PaginationResult<Product>> {
+    const query = this.getBaseQuery({
+      sort: 'e.name',
+      order: paginatorOptions.order,
+    });
+    return await paginate(query, paginatorOptions);
   }
 
   async findById(id: number): Promise<Product> {
