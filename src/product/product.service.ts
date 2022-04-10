@@ -54,7 +54,7 @@ export class ProductService {
     const productById = await this.productRepository.findOne(id);
 
     if (!productById) {
-      throw new NotFoundException('Product not found!');
+      throw new NotFoundException('Product is not found!');
     }
 
     const existingProduct = await this.productRepository.findOne({
@@ -89,7 +89,7 @@ export class ProductService {
     const product = await this.productRepository.findOne(id);
 
     if (!product) {
-      throw new NotFoundException('Product not found!');
+      throw new NotFoundException('Product is not found!');
     }
 
     const res: DeleteResult = await this.productRepository.delete({ id });

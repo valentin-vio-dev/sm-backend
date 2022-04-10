@@ -11,7 +11,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-    .setTitle('SM api')
+    .setTitle('SM API')
     .setDescription('SM API documentation')
     .setVersion(process.env.API_VERSION)
     .addBearerAuth()

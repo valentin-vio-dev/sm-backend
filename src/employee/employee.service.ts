@@ -29,7 +29,7 @@ export class EmployeeService {
   async findById(id: number): Promise<Employee> {
     const employee = await this.employeeRepository.findOne(id);
     if (!employee) {
-      throw new NotFoundException('Employee not found!');
+      throw new NotFoundException('Employee is not found!');
     }
     return employee;
   }
@@ -56,20 +56,26 @@ export class EmployeeService {
   }
 
   async delete(id: number): Promise<null> {
+    const employee: Employee = await this.employeeRepository.findOne(id);
+
+    if (!employee) {
+      throw new NotFoundException('Employee is not found!');
+    }
+
     const res: DeleteResult = await this.employeeRepository.delete({ id });
     if (res.affected === 0) {
-      throw new NotFoundException('Employee not found!');
+      throw new BadRequestException();
     }
     return null;
   }
 
-  async updateRole(id: number, role: Role) {
-    const employee: Employee = await this.employeeRepository.findOne({
-      id,
-    });
+  async updateRole(id: number, role: Role): Promise<Employee> {
+    const employee: Employee = await this.employeeRepository.findOne(id);
+
     if (!employee) {
-      throw new NotFoundException('Employee not found!');
+      throw new NotFoundException('Employee is not found!');
     }
+
     employee.role = role;
     return await this.employeeRepository.save(employee);
   }
@@ -80,7 +86,7 @@ export class EmployeeService {
   ): Promise<Employee> {
     const employee = await this.employeeRepository.findOne(id);
     if (!employee) {
-      throw new NotFoundException('Employee not found!');
+      throw new NotFoundException('Employee is not found!');
     }
 
     const existingEmployee = await this.employeeRepository.findOne({

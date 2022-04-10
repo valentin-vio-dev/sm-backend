@@ -25,7 +25,7 @@ export class ManufacturerService {
   async findById(id: number): Promise<Manufacturer> {
     const man = await this.manufacturerRepository.findOne(id);
     if (!man) {
-      throw new NotFoundException('Manufacturer not found!');
+      throw new NotFoundException('Manufacturer is not found!');
     }
     return man;
   }
@@ -47,7 +47,7 @@ export class ManufacturerService {
   async delete(id: number): Promise<null> {
     const manufactuer = await this.manufacturerRepository.findOne(id);
     if (!manufactuer) {
-      throw new NotFoundException('Manufactrurer not found!');
+      throw new NotFoundException('Manufactrurer is not found!');
     }
 
     const res: DeleteResult = await this.manufacturerRepository.delete({ id });
@@ -65,7 +65,7 @@ export class ManufacturerService {
   ): Promise<Manufacturer> {
     const manufactuer = await this.manufacturerRepository.findOne(id);
     if (!manufactuer) {
-      throw new NotFoundException('Manufacturer not found!');
+      throw new NotFoundException('Manufacturer is not found!');
     }
 
     const existingManufacturer = await this.manufacturerRepository.findOne({

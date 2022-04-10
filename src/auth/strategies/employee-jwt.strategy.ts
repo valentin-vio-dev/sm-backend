@@ -23,11 +23,7 @@ export class EmployeeJwtStrategy extends PassportStrategy(
   }
 
   public async validate(payload: any) {
-    if (
-      payload.roles !== 'SUPER_ADMIN' &&
-      payload.roles !== 'ADMIN' &&
-      payload.roles !== 'EMPLOYEE'
-    ) {
+    if (!['SUPER_ADMIN', 'ADMIN', 'EMPLOYEE'].includes(payload.roles)) {
       throw new UnauthorizedException('Not enough permission!');
     }
     return await this.employeeRepository.findOne(payload.sub);

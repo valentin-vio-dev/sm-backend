@@ -26,7 +26,7 @@ export class EmployeeLocalStrategy extends PassportStrategy(
     });
 
     if (!employee) {
-      throw new UserNotFoundException('Employee not found!');
+      throw new UserNotFoundException('Employee is not found!');
     }
 
     const match = await bcrypt.compare(password, employee.password);

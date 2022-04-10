@@ -22,7 +22,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Authenticate employee.' })
   @ApiBody({ type: LoginDTO })
   @ApiCreatedResponse({
-    description: 'Return the generated auth token.',
+    description: 'Returns auth token.',
     type: TokenDTO,
   })
   async loginEmployee(@CurrentUser() user: Employee) {

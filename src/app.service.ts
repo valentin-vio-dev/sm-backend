@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getIndex() {
     return {
-      appName: process.env.APP_NAME,
+      application: process.env.APP_NAME,
       version: process.env.API_VERSION,
     };
   }

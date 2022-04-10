@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Controller,
   Delete,
   Get,
@@ -39,7 +38,7 @@ export class StorageController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Return image.',
+    description: 'Returns image.',
   })
   getImage(@Res() res: Response, @Param('name') image: string) {
     return res.sendFile(image, { root: 'public' });
@@ -54,24 +53,24 @@ export class StorageController {
   })
   @ApiResponse({
     status: 404,
-    description: 'Image not found.',
+    description: 'Image is not found.',
   })
   @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
   @ApiBearerAuth()
   deleteImage(@Param('name') image: string) {
     if (!this.storageService.deleteImage(image)) {
-      throw new NotFoundException('Image not found!');
+      throw new NotFoundException('Image is not found!');
     }
     return null;
   }
 
   @Post('/images/upload')
   @ApiOperation({
-    summary: 'Upload image',
+    summary: 'Upload image.',
   })
   @ApiResponse({
     status: 201,
-    description: 'Return uploaded image name.',
+    description: 'Returns uploaded image name.',
     type: ImageUploadResult,
   })
   @ApiConsumes('multipart/form-data')
