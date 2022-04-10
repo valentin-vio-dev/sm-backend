@@ -15,13 +15,6 @@ export interface PaginationResult<T> {
   results: T[];
 }
 
-export class PaginationResponse<T> {
-  first: number;
-  last: number;
-  limit: number;
-  results: T[];
-}
-
 export async function paginate<T>(
   qb: SelectQueryBuilder<T>,
   options: PaginatorOptions = { limit: 10, currentPage: 1 },
@@ -36,16 +29,14 @@ export async function paginate<T>(
   };
 }
 
-export const ApiPaginatedDto = <TModel extends Type<any>>(options: {
-  type?: TModel;
-  description?: string;
+export const ApiPaginatedDto = <Model extends Type<any>>(options: {
+  type: Model;
+  description: string;
 }) => {
   return applyDecorators(
     ApiOkResponse({
-      description: options.description,
       schema: {
         allOf: [
-          { $ref: getSchemaPath(PaginationResponse) },
           {
             properties: {
               first: {
@@ -65,6 +56,7 @@ export const ApiPaginatedDto = <TModel extends Type<any>>(options: {
           },
         ],
       },
+      description: options.description,
     }),
   );
 };
