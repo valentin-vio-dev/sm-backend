@@ -31,15 +31,32 @@ export class ProductController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get all product.',
+    summary: 'Get products by filter.',
   })
   @ApiResponse({
     status: 200,
-    description: 'Returns all product.',
+    description: 'Returns products.',
     type: [Product],
   })
   async findAll(): Promise<Product[]> {
     return await this.productService.findAll();
+  }
+
+  @Get('/:id')
+  @ApiOperation({
+    summary: 'Get product by id.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns product by id.',
+    type: Product,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Product is not found.',
+  })
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    return this.productService.findById(id);
   }
 
   @Post()
