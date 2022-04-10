@@ -7,13 +7,18 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { EmployeeGuard } from 'src/role/guards/employee/employee.guard';
+import { SuperAdminGuard } from 'src/role/guards/super-admin/super-admin.guard';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { UpdateProductDTO } from './dto/update-product.dto';
 import { Product } from './product.entity';
@@ -49,6 +54,8 @@ export class ProductController {
     status: 400,
     description: 'Product or manufacturer already exists.',
   })
+  @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
+  @ApiBearerAuth()
   create(@Body() body: CreateProductDTO) {
     return this.productService.create(body);
   }
@@ -66,6 +73,8 @@ export class ProductController {
     status: 404,
     description: 'Product not found!',
   })
+  @UseGuards(AuthGuard('employee-jwt'), EmployeeGuard)
+  @ApiBearerAuth()
   async update(
     @Body() body: UpdateProductDTO,
     @Param('id', ParseIntPipe) id: number,
@@ -77,6 +86,8 @@ export class ProductController {
   @ApiOperation({ summary: 'Delete product.' })
   @ApiResponse({ status: 200, description: 'Product deleted.' })
   @ApiResponse({ status: 404, description: 'Product not found.' })
+  @UseGuards(AuthGuard('employee-jwt'), SuperAdminGuard)
+  @ApiBearerAuth()
   async delete(@Param('id', ParseIntPipe) id: number): Promise<null> {
     return await this.productService.delete(id);
   }
